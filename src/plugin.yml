@@ -1,0 +1,8 @@
+name: CM
+version: 1.0
+author: devcode
+main: me.devcode.CM.TuT
+commands:
+  countdownmute:
+  setpotions:
+  getpotions:
