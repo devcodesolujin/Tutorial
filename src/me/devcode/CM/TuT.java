@@ -1,10 +1,12 @@
 package me.devcode.CM;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,12 +15,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+
 public class TuT extends JavaPlugin implements Listener 	{
 	
 	
 	public static int scheduler;
 	public static double timer = 0;
 	public static boolean gestartet = false;
+	
+	//HashMap<Player, Packet> packetbar = new HashMap<Player, Packet>();
 	
 	
 	public void onEnable() {
@@ -33,6 +39,12 @@ public class TuT extends JavaPlugin implements Listener 	{
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if(command.getName().equalsIgnoreCase("anvil")) {
+			Anvil anvil = new Anvil((Player)sender);
+			anvil.open();
+			anvil.setTitle("§aTest");
+			sender.sendMessage("§aAnvil geöffnet!");
+		}
 		if(command.getName().equalsIgnoreCase("countdownmute")) {
 			if(args.length < 1) {
 				sender.sendMessage("§c/countdownmute <timer>");
@@ -58,8 +70,61 @@ public class TuT extends JavaPlugin implements Listener 	{
 			((Player)sender).addPotionEffect(effect);
 		}
 		sender.sendMessage("§cPotion Effecte erhalten!");
+		/*}else if(command.getName().equalsIgnoreCase("bar")) {
+			if(args.length < 1) {
+				sender.sendMessage("§c/bar <String>");
+				return true;
+			}
+			if(packetbar.containsKey((Player)sender)) {
+				
+			
+			Packet packet = packetbar.get((Player)sender);
+			packetbar.remove((Player)sender);
+			for(Player all : Bukkit.getOnlinePlayers()) {
+			((CraftPlayer)all).getHandle().playerConnection.sendPacket(packet);
+			
+			}
+			((Player)sender).sendMessage("§cAlte Bar wurde gelöscht!");
+			}
+			String string = " ";
+			for(int i = 0; i < args.length; i++) {
+				string = string + args[i] + " ";
+				
+			}
+		BossBattleServer bar = new BossBattleServer(IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + string.replace('&', '§') + "\"}"), BarColor.GREEN, BarStyle.PROGRESS);
+	bar.setProgress((float) 1);
+	bar.setCreateFog(false);
+	bar.setDarkenSky(false);
+	bar.setPlayMusic(true);
+	Packet packet = new PacketPlayOutBoss(Action.ADD, bar);
+	Packet packet2 = new PacketPlayOutBoss(Action.REMOVE, bar);
+	for(Player all : Bukkit.getOnlinePlayers()) {
+		((CraftPlayer)all).getHandle().playerConnection.sendPacket(packet);
+	}
+	packetbar.put((Player)sender, packet2);
+	sender.sendMessage("§7Bar erscheint!");
+		}else if(command.getName().equalsIgnoreCase("bardelete")) {
+			if(args.length >1 ) {
+				sender.sendMessage("§c/bardelete");
+				return true;
+			}
+			
+	if(!packetbar.containsKey((Player)sender)) {
+		sender.sendMessage("§cKeine Bar konnte verschwinden!");
+		
+		return true;
+	}
+	Packet packet = packetbar.get((Player)sender);
+	packetbar.remove((Player)sender);
+	for(Player all : Bukkit.getOnlinePlayers()) {
+	((CraftPlayer)all).getHandle().playerConnection.sendPacket(packet);
+	}
+	sender.sendMessage("§7Bar verschwindet!");
 		}
 		
+		
+		*/
+		}
 		return true;
 	}
 
