@@ -11,11 +11,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.PacketPlayOutResourcePackSend;
 
 public class TuT extends JavaPlugin implements Listener 	{
 	
@@ -154,6 +157,16 @@ public class TuT extends JavaPlugin implements Listener 	{
 		
 	}
 	}
+	
+	
+	 @EventHandler
+	 public void onJoin(PlayerJoinEvent e) {
+		 e.getPlayer().setResourcePack("URL DES TEXTURENPACKETS");
+		 PacketPlayOutResourcePackSend packet = new PacketPlayOutResourcePackSend("URL DES TEXTURENPACKETS", "IRGENDEINNAME");
+		 ((CraftPlayer)e.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+	 }
+	
+	
 	
 	@EventHandler
 	public void onMute(AsyncPlayerChatEvent e) {
